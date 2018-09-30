@@ -3,8 +3,6 @@ function dis = D(u,v)
   [x,y] = size(u);
   
   for i= (1:x)
-    for j= (1:y)
-         dis = dis + (u(x,y) - v(x,y))^2;
-    endfor
+    dis = dis + (u(x) - v(x))^2;
   endfor
 endfunction
