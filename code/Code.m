@@ -22,15 +22,15 @@ x1 = 1; y1 = 1;                               #initial point to P1
 x2 = 50; y2 = 45;                             #initial point to P2
 x3 = 120; y3 = 100;                           #initial point to P3
 new_vetor = zeros(1,256,"uint8");             #map color 1 to 256
-temp=15;                                       #initial temperature
+temp=10;                                       #initial temperature
 image_final = image01;                          #create var to final iterate image 
 best_image = zeros(size_X,size_Y,size_Z);       #create var to vest image
 diff_red = 0;                                   #diff perl channel (Red)
 diff_green = 0;                                 #diff perl channel (Green)
 diff_blue = 0;                                  #diff perl channel (Blue)
-best_difR = inf(1)*-1;                            #var best diference init with +inifinite Red
-best_difG = inf(1)*-1;                            #var best diference init with +inifinite Green
-best_difB = inf(1)*-1;                            #var best diference init with +inifinite Blue
+best_difR = inf(1);                            #var best diference init with +inifinite Red
+best_difG = inf(1);                            #var best diference init with +inifinite Green
+best_difB = inf(1);                            #var best diference init with +inifinite Blue
 new_dif = 0;                                  #diff in loop
 
 while(temp > 0)
@@ -126,12 +126,15 @@ while(temp > 0)
       case 1
         image01_out_R = saida;
         diff_red = new_dif;
+        diff_ori_red = dif;
       case 2 
         image01_out_G = saida;
         diff_green = new_dif;
+        diff_ori_green = dif;
       case 3
         image01_out_B = saida;
         diff_blue = new_dif;
+        diff_ori_blue = new_dif;
       otherwise
         printf("Error 0x02\n");
     endswitch
@@ -143,7 +146,7 @@ while(temp > 0)
   image_final = cat(3,image01_out_R,image01_out_G,image01_out_B);
   figure('name','Final Image Iteration','numbertitle','off'), imshow(uint8(image_final));
   
-  if ((diff_red > (best_difR*0.8)) && (diff_green > (best_difG*0.8)) && (diff_blue > (best_difB*0.8)))   
+  if ((diff_red < (best_difR*1.04)) && (diff_green < (best_difG*1.04)) && (diff_blue < (best_difB*1.04)))   
     printf("\ntrocou!\n");
     best_difR = diff_red;
     best_difG = diff_green;
